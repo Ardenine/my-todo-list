@@ -20,7 +20,10 @@
 
 <body>
   <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-      <a class="navbar-brand" href="{% url 'home' %}">DjangoX</a>
+      <a class="navbar-brand" href="{% url 'home' %}">My todo list</a>
+      <span class="navbar-brand"> | </span>
+      <a class="navbar-brand" href="{% url 'about' %}">About me</a>
+
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -54,7 +57,7 @@
   </div>
 
    <nav class="navbar fixed-bottom navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">&copy; DjangoX 2020</a>
+    <a class="navbar-brand" href="#">JUST ANOTHER TODO MVC</a>
   </nav>
 
   {% block javascript %}
