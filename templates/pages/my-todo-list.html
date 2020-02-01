@@ -1,7 +1,17 @@
 {% extends '_base.html' %}
+{% load static %}
 
 {% block title %}About page{% endblock %}
 
 {% block content %}
-<h1>My TODO list</h1>
+    <h1>My TODO list</h1>
+
+    <div id="todos-example"></div>
 {% endblock content %}
+
+{% block javascript %}
+    {{ block.super }}
+
+    <script src="{% static 'js/todo-list.js' %}"></script>
+
+{% endblock javascript %}
