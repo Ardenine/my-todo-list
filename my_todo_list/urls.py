@@ -7,6 +7,7 @@ urlpatterns = [
     path('users/', include('django.contrib.auth.urls')),
     path('accounts/', include('allauth.urls')),
     path('', include('pages.urls')),
+    path('api-v1/', include('rest_api.urls', namespace='api-v1')),
 ]
 
 if settings.DEBUG:
