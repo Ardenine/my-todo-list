@@ -1,7 +1,9 @@
 class TodoApp extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { items: [], text: '' };
+        this.state = {items: [], text: ''};
+
+        // `handleChange.bind` is useful to access the value of `this` inside the handler callback
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -9,19 +11,16 @@ class TodoApp extends React.Component {
     render() {
         return (
             <div>
-                <h3>TODO</h3>
-                <TodoList items={this.state.items} />
+                <TodoList items={this.state.items}/>
                 <form onSubmit={this.handleSubmit}>
-                    <label htmlFor="new-todo">
-                        Cosa bisogna fare?
-                    </label>
                     <input
                         id="new-todo"
                         onChange={this.handleChange}
                         value={this.state.text}
+                        placeholder="New task"
                     />
                     <button>
-                        Aggiungi #{this.state.items.length + 1}
+                        Add
                     </button>
                 </form>
             </div>
@@ -29,7 +28,7 @@ class TodoApp extends React.Component {
     }
 
     handleChange(e) {
-        this.setState({ text: e.target.value });
+        this.setState({text: e.target.value});
     }
 
     handleSubmit(e) {
@@ -37,30 +36,64 @@ class TodoApp extends React.Component {
         if (!this.state.text.length) {
             return;
         }
-        const newItem = {
+
+
+        console.log('this.state.text ', this.state.text);
+        /* todo alex : remove this line before commit */
+
+        let newTask = new Task({
+            id: Date.now(),
             text: this.state.text,
-            id: Date.now()
-        };
+            is_completed: false
+        });
+
+
         this.setState(state => ({
-            items: state.items.concat(newItem),
+            items: state.items.concat(newTask),
             text: ''
         }));
+
     }
 }
+
+
+class Task extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {id: '', text: '', is_completed: ''}
+    }
+
+    render() {
+        let todo_text = this.props.text;
+
+        if(this.props.is_completed){
+            todo_text = <del> {todo_text} </del>
+
+        }
+
+        return (
+            <li key={this.props.id}>{todo_text}</li>
+        )
+    }
+}
+
 
 class TodoList extends React.Component {
     render() {
         return (
             <ul>
+
                 {this.props.items.map(item => (
-                    <li key={item.id}>{item.text}</li>
+                    <Task key={item.props.id}
+                          id={item.props.id} text={item.props.text} is_completed={item.props.is_completed}/>
                 ))}
+
             </ul>
         );
     }
 }
 
 ReactDOM.render(
-    <TodoApp />,
-    document.getElementById('todos-example')
+    <TodoApp/>,
+    document.getElementById('todos-div')
 );

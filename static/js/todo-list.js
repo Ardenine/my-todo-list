@@ -15,6 +15,8 @@ var TodoApp = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (TodoApp.__proto__ || Object.getPrototypeOf(TodoApp)).call(this, props));
 
         _this.state = { items: [], text: '' };
+
+        // `handleChange.bind` is useful to access the value of `this` inside the handler callback
         _this.handleChange = _this.handleChange.bind(_this);
         _this.handleSubmit = _this.handleSubmit.bind(_this);
         return _this;
@@ -26,30 +28,20 @@ var TodoApp = function (_React$Component) {
             return React.createElement(
                 "div",
                 null,
-                React.createElement(
-                    "h3",
-                    null,
-                    "TODO"
-                ),
                 React.createElement(TodoList, { items: this.state.items }),
                 React.createElement(
                     "form",
                     { onSubmit: this.handleSubmit },
-                    React.createElement(
-                        "label",
-                        { htmlFor: "new-todo" },
-                        "Cosa bisogna fare?"
-                    ),
                     React.createElement("input", {
                         id: "new-todo",
                         onChange: this.handleChange,
-                        value: this.state.text
+                        value: this.state.text,
+                        placeholder: "New task"
                     }),
                     React.createElement(
                         "button",
                         null,
-                        "Aggiungi #",
-                        this.state.items.length + 1
+                        "Add"
                     )
                 )
             );
@@ -66,13 +58,19 @@ var TodoApp = function (_React$Component) {
             if (!this.state.text.length) {
                 return;
             }
-            var newItem = {
+
+            console.log('this.state.text ', this.state.text);
+            /* todo alex : remove this line before commit */
+
+            var newTask = new Task({
+                id: Date.now(),
                 text: this.state.text,
-                id: Date.now()
-            };
+                is_completed: false
+            });
+
             this.setState(function (state) {
                 return {
-                    items: state.items.concat(newItem),
+                    items: state.items.concat(newTask),
                     text: ''
                 };
             });
@@ -82,8 +80,46 @@ var TodoApp = function (_React$Component) {
     return TodoApp;
 }(React.Component);
 
-var TodoList = function (_React$Component2) {
-    _inherits(TodoList, _React$Component2);
+var Task = function (_React$Component2) {
+    _inherits(Task, _React$Component2);
+
+    function Task(props) {
+        _classCallCheck(this, Task);
+
+        var _this2 = _possibleConstructorReturn(this, (Task.__proto__ || Object.getPrototypeOf(Task)).call(this, props));
+
+        _this2.state = { id: '', text: '', is_completed: '' };
+        return _this2;
+    }
+
+    _createClass(Task, [{
+        key: "render",
+        value: function render() {
+            var todo_text = this.props.text;
+
+            if (this.props.is_completed) {
+                todo_text = React.createElement(
+                    "del",
+                    null,
+                    " ",
+                    todo_text,
+                    " "
+                );
+            }
+
+            return React.createElement(
+                "li",
+                { key: this.props.id },
+                todo_text
+            );
+        }
+    }]);
+
+    return Task;
+}(React.Component);
+
+var TodoList = function (_React$Component3) {
+    _inherits(TodoList, _React$Component3);
 
     function TodoList() {
         _classCallCheck(this, TodoList);
@@ -98,11 +134,8 @@ var TodoList = function (_React$Component2) {
                 "ul",
                 null,
                 this.props.items.map(function (item) {
-                    return React.createElement(
-                        "li",
-                        { key: item.id },
-                        item.text
-                    );
+                    return React.createElement(Task, { key: item.props.id,
+                        id: item.props.id, text: item.props.text, is_completed: item.props.is_completed });
                 })
             );
         }
@@ -111,4 +144,4 @@ var TodoList = function (_React$Component2) {
     return TodoList;
 }(React.Component);
 
-ReactDOM.render(React.createElement(TodoApp, null), document.getElementById('todos-example'));
+ReactDOM.render(React.createElement(TodoApp, null), document.getElementById('todos-div'));
