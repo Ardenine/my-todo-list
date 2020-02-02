@@ -12,6 +12,12 @@
 {% block javascript %}
     {{ block.super }}
 
+{#    {% csrf_token %}#}
+{#    <script type="text/javascript">#}
+{#        // using jQuery#}
+{#        var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();#}
+{#    </script>#}
+
     <script src="{% static 'js/todo-list.js' %}"></script>
 
 {% endblock javascript %}

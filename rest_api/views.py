@@ -15,11 +15,6 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = CustomUser.objects.all().order_by('-date_joined')
 
-    # def get_queryset(self):
-    #     qs =
-    #
-    #     return qs
-
 
 class TodoListViewSet(viewsets.ModelViewSet):
     """
@@ -33,5 +28,5 @@ class TaskListViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
     """
-    queryset = Task.objects.all()
+    queryset = Task.objects.all().order_by('is_completed')
     serializer_class = TaskListSerializer

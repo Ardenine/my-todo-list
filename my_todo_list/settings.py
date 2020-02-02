@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'users',
     'pages',
     'tasks',
+    'rest_api',
 
 ]
 
